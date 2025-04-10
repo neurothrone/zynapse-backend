@@ -1,10 +1,5 @@
 trigger: none
 
-pr:
-  branches:
-    include:
-      - "*"  # Trigger on PR to any branch
-
 pool:
   vmImage: "ubuntu-latest"
 
