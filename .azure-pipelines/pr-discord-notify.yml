@@ -6,15 +6,12 @@ pr:
       - "*"  # Trigger on PR to any branch
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: "ubuntu-latest"
 
 jobs:
   - job: PR_Notification
     displayName: "Notify Discord on PR Event"
     condition: eq(variables['Build.Reason'], 'PullRequest')
-    variables:
-      - name: DiscordWebhookURL
-        value: $(DiscordWebhookURL)  # Secret set in UI or variable group
 
     steps:
       - script: |
