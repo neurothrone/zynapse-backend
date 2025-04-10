@@ -18,7 +18,7 @@ jobs:
 
           payload=$(jq -n \
             --arg repo "${BUILD_REPOSITORY_NAME}" \
-            --arg branch "${BUILD_SOURCEBRANCHNAME}" \
+            --arg branch "${SYSTEM_PULLREQUEST_SOURCEBRANCH##*/}" \
             --arg author "${BUILD_REQUESTEDFOR}" \
             --arg id "${SYSTEM_PULLREQUEST_PULLREQUESTID:-N/A}" \
             '{
