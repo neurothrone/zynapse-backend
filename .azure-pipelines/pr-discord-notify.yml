@@ -22,10 +22,9 @@ jobs:
           echo "Sending pull request notification to Discord..."
 
           payload=$(jq -n \
-            --arg title "${SYSTEM_PULLREQUEST_TITLE}" \
-            --arg author "${SYSTEM_PULLREQUEST_CREATEDBY}" \
-            --arg id "${SYSTEM_PULLREQUEST_PULLREQUESTID}" \
-            --arg url "${SYSTEM_PULLREQUEST_SOURCEBRANCH}" \
+            --arg title "${BUILD_SOURCEBRANCH}" \
+            --arg author "${BUILD_REQUESTEDFOR}" \
+            --arg id "${SYSTEM_PULLREQUEST_PULLREQUESTID:-N/A}" \
             '{
               content: "",
               embeds: [{
@@ -33,10 +32,9 @@ jobs:
                 description: "A new pull request has triggered the pipeline.",
                 color: 15105570,
                 fields: [
-                  { name: "PR Title", value: $title },
+                  { name: "PR Branch", value: $title },
                   { name: "Author", value: $author },
-                  { name: "PR ID", value: $id },
-                  { name: "Branch", value: $url }
+                  { name: "PR ID", value: $id }
                 ]
               }]
             }'
@@ -48,4 +46,4 @@ jobs:
                "$DiscordWebhookURL"
         env:
           DiscordWebhookURL: $(DiscordWebhookURL)
-        displayName: "Notify Discord (Pull Request)"
+        displayName: 'Notify Discord (Pull Request)'
