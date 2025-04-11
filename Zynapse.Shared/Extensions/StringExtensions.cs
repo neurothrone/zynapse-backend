@@ -1,4 +1,4 @@
-namespace Zynapse.Shared.Utils;
+namespace Zynapse.Shared.Extensions;
 
 public static class StringExtensions
 {
