@@ -1,4 +1,4 @@
-namespace Zynapse.WebApi.Utils;
+namespace Zynapse.Shared.Utils;
 
 public abstract class Result<T>
 {
