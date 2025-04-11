@@ -51,5 +51,3 @@ stages:
                     appType: "webAppLinux"
                     appName: "zynapse-api"
                     package: "$(Pipeline.Workspace)/drop"
-                    appSettings: |
-                      -name ConnectionStrings__SupabaseConnection -value $(ConnectionStrings__SupabaseConnection)
