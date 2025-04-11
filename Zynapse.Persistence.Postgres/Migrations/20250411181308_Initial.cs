@@ -24,7 +24,8 @@ namespace Zynapse.Persistence.Postgres.Migrations
                     Name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     Description = table.Column<string>(type: "TEXT", nullable: false),
                     Price = table.Column<decimal>(type: "numeric(10,2)", nullable: false),
-                    Stock = table.Column<int>(type: "integer", nullable: false)
+                    Stock = table.Column<int>(type: "integer", nullable: false),
+                    SteamLink = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true)
                 },
                 constraints: table =>
                 {

@@ -12,7 +12,8 @@ public static class ProductExtensions
         Name = entity.Name,
         Description = entity.Description,
         Price = entity.Price,
-        Stock = entity.Stock
+        Stock = entity.Stock,
+        SteamLink = entity.SteamLink
     };
 
     public static ProductEntity ToEntity(this Product model) => new()
@@ -21,7 +22,8 @@ public static class ProductExtensions
         Name = model.Name,
         Description = model.Description,
         Price = model.Price,
-        Stock = model.Stock
+        Stock = model.Stock,
+        SteamLink = model.SteamLink
     };
 
     public static ProductEntity ToEntity(this ProductInputDto dto) => new()
@@ -29,6 +31,7 @@ public static class ProductExtensions
         Name = dto.Name,
         Description = dto.Description,
         Price = dto.Price,
-        Stock = dto.Stock
+        Stock = dto.Stock,
+        SteamLink = dto.SteamLink
     };
 }

@@ -11,6 +11,9 @@ public class ProductSeedDto
     [JsonPropertyName("product")]
     public string Name { get; set; } = string.Empty;
 
+    [JsonPropertyName("description")]
+    public string? Description { get; set; }
+
     [JsonPropertyName("price")]
     public decimal Price { get; set; }
 
@@ -19,9 +22,6 @@ public class ProductSeedDto
 
     [JsonPropertyName("steam-link")]
     public string? SteamLink { get; set; }
-
-    [JsonPropertyName("description")]
-    public string? Description { get; set; }
 }
 
 public static class ProductSeeder
@@ -43,6 +43,7 @@ public static class ProductSeeder
             Description = p.Description ?? string.Empty,
             Price = p.Price,
             Stock = p.Stock ?? 0,
+            SteamLink = p.SteamLink
         });
 
         await context.Products.AddRangeAsync(entities);

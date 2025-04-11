@@ -19,4 +19,8 @@ public class ProductEntity
 
     [Range(0, 99)]
     public int Stock { get; set; }
+
+    [Url]
+    [MaxLength(255)]
+    public string? SteamLink { get; set; }
 }

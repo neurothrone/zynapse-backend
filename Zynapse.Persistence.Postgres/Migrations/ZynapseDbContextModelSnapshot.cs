@@ -42,6 +42,10 @@ namespace Zynapse.Persistence.Postgres.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("NUMERIC(10, 2)");
 
+                    b.Property<string>("SteamLink")
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
                     b.Property<int>("Stock")
                         .HasColumnType("integer");
 
