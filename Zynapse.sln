@@ -2,6 +2,10 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zynapse.WebApi", "Zynapse.WebApi\Zynapse.WebApi.csproj", "{298313D9-EE7B-4433-9600-5C3592AD0758}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zynapse.Persistence.Postgres", "Zynapse.Persistence.Postgres\Zynapse.Persistence.Postgres.csproj", "{DB1662EF-E1BA-4C4A-891B-6E9A156B2E8C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zynapse.Shared", "Zynapse.Shared\Zynapse.Shared.csproj", "{61612614-BDE3-4BC0-938E-0F7BC9BA97C3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +16,13 @@ Global
 		{298313D9-EE7B-4433-9600-5C3592AD0758}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{298313D9-EE7B-4433-9600-5C3592AD0758}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{298313D9-EE7B-4433-9600-5C3592AD0758}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB1662EF-E1BA-4C4A-891B-6E9A156B2E8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB1662EF-E1BA-4C4A-891B-6E9A156B2E8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB1662EF-E1BA-4C4A-891B-6E9A156B2E8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB1662EF-E1BA-4C4A-891B-6E9A156B2E8C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61612614-BDE3-4BC0-938E-0F7BC9BA97C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61612614-BDE3-4BC0-938E-0F7BC9BA97C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61612614-BDE3-4BC0-938E-0F7BC9BA97C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61612614-BDE3-4BC0-938E-0F7BC9BA97C3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
