@@ -40,6 +40,13 @@ using (var scope = app.Services.CreateScope())
 
 app.UseHttpsRedirection();
 
+app.UseStaticFiles();
+app.MapGet("/", context =>
+{
+    context.Response.Redirect("/index.html");
+    return Task.CompletedTask;
+});
+
 app.MapProductEndpoints();
 
 app.Run();
