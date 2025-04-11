@@ -11,8 +11,13 @@ public class ZynapseDbContext(DbContextOptions<ZynapseDbContext> options) : DbCo
     {
         base.OnModelCreating(modelBuilder);
 
+        modelBuilder.HasDefaultSchema("public");
+
         modelBuilder.Entity<ProductEntity>(entity =>
         {
+            entity.ToTable("products");
+            entity.HasKey(e => e.Id);
+
             // Explicitly set NUMERIC(10, 2) for Price
             entity.Property(e => e.Price)
                 .HasColumnType("NUMERIC(10, 2)");
