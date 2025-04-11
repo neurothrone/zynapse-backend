@@ -1,8 +1,8 @@
+using Zynapse.Api.DTO;
+using Zynapse.Api.Models;
 using Zynapse.Shared.Utils;
-using Zynapse.WebApi.DTO;
-using Zynapse.WebApi.Models;
 
-namespace Zynapse.WebApi.Services;
+namespace Zynapse.Api.Services;
 
 public interface IProductService
 {

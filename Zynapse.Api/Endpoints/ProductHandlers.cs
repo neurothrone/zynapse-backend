@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
-using Zynapse.WebApi.DTO;
-using Zynapse.WebApi.Services;
+using Zynapse.Api.DTO;
+using Zynapse.Api.Services;
 
-namespace Zynapse.WebApi.Endpoints;
+namespace Zynapse.Api.Endpoints;
 
 // !: TypedResults API
 // Source: https://learn.microsoft.com/en-us/aspnet/core/tutorials/min-web-api?view=aspnetcore-9.0&tabs=visual-studio#use-the-typedresults-api

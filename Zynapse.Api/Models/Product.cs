@@ -1,4 +1,4 @@
-namespace Zynapse.WebApi.Models;
+namespace Zynapse.Api.Models;
 
 public class Product
 {

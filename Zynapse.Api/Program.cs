@@ -3,8 +3,8 @@ using Zynapse.Persistence.Postgres.Data;
 using Zynapse.Persistence.Postgres.Interfaces;
 using Zynapse.Persistence.Postgres.Repositories;
 using Zynapse.Persistence.Postgres.Utils;
-using Zynapse.WebApi.Endpoints;
-using Zynapse.WebApi.Services;
+using Zynapse.Api.Endpoints;
+using Zynapse.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

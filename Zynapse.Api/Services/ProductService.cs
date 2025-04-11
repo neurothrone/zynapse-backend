@@ -1,10 +1,10 @@
+using Zynapse.Api.DTO;
+using Zynapse.Api.Models;
 using Zynapse.Persistence.Postgres.Interfaces;
 using Zynapse.Shared.Utils;
-using Zynapse.WebApi.DTO;
-using Zynapse.WebApi.Extensions;
-using Zynapse.WebApi.Models;
+using Zynapse.Api.Extensions;
 
-namespace Zynapse.WebApi.Services;
+namespace Zynapse.Api.Services;
 
 public class ProductService(IProductRepository repository) : IProductService
 {

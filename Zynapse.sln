@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zynapse.WebApi", "Zynapse.WebApi\Zynapse.WebApi.csproj", "{298313D9-EE7B-4433-9600-5C3592AD0758}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zynapse.Api", "Zynapse.Api\Zynapse.Api.csproj", "{298313D9-EE7B-4433-9600-5C3592AD0758}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zynapse.Persistence.Postgres", "Zynapse.Persistence.Postgres\Zynapse.Persistence.Postgres.csproj", "{DB1662EF-E1BA-4C4A-891B-6E9A156B2E8C}"
 EndProject

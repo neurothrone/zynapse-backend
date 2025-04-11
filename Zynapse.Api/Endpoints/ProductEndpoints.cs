@@ -1,6 +1,6 @@
-using Zynapse.WebApi.Models;
+using Zynapse.Api.Models;
 
-namespace Zynapse.WebApi.Endpoints;
+namespace Zynapse.Api.Endpoints;
 
 public static class ProductEndpoints
 {

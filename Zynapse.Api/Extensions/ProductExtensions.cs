@@ -1,8 +1,8 @@
+using Zynapse.Api.DTO;
+using Zynapse.Api.Models;
 using Zynapse.Persistence.Postgres.Entities;
-using Zynapse.WebApi.DTO;
-using Zynapse.WebApi.Models;
 
-namespace Zynapse.WebApi.Extensions;
+namespace Zynapse.Api.Extensions;
 
 public static class ProductExtensions
 {

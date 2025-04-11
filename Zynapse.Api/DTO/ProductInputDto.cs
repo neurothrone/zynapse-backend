@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace Zynapse.WebApi.DTO;
+namespace Zynapse.Api.DTO;
 
 public record ProductInputDto
 {
