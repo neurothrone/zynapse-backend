@@ -40,46 +40,16 @@ public static class AuthenticationExtensions
             })
             .AddJwtBearer(options =>
             {
-                // Configure token validation parameters
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuer = true,
-                    ValidIssuer = issuer,
-
-                    ValidateAudience = true,
-                    ValidAudience = audience,
-
-                    ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret)),
+                    ValidAudience = audience,
+                    ValidIssuer = issuer,
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
                     ClockSkew = TimeSpan.FromMinutes(5)
-                };
-
-                options.SaveToken = true;
-
-                // Handle authorization header extraction
-                options.Events = new JwtBearerEvents
-                {
-                    OnMessageReceived = context =>
-                    {
-                        var authHeader = context.Request.Headers["Authorization"].ToString();
-
-                        if (string.IsNullOrEmpty(authHeader))
-                            return Task.CompletedTask;
-
-                        // Extract token with or without Bearer prefix
-                        if (authHeader.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase))
-                        {
-                            context.Token = authHeader.Substring("Bearer ".Length).Trim();
-                        }
-                        else if (authHeader.Contains('.') && authHeader.Split('.').Length == 3)
-                        {
-                            // Looks like a raw JWT token
-                            context.Token = authHeader.Trim();
-                        }
-
-                        return Task.CompletedTask;
-                    }
                 };
             });
 
