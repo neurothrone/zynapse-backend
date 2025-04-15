@@ -11,7 +11,7 @@ using Zynapse.Backend.Persistence.Postgres.Data;
 namespace Zynapse.Backend.Persistence.Postgres.Migrations
 {
     [DbContext(typeof(ZynapseDbContext))]
-    [Migration("20250411181308_Initial")]
+    [Migration("20250415175750_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
