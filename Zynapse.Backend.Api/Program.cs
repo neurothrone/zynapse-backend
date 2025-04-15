@@ -74,35 +74,38 @@ void ConfigureMiddlewarePipeline(WebApplication app)
         app.UseSwagger();
         app.UseSwaggerUI();
         
-        // Debug authentication bypass
-        bool isDebugMode = app.Configuration.GetValue<bool>("DebugAuth", false);
-        if (isDebugMode)
+        // Middleware to provide detailed auth error information in development
+        app.Use(async (context, next) =>
         {
-            app.Use(async (context, next) =>
+            // Check and log authorization header format before proceeding
+            if (context.Request.Headers.ContainsKey("Authorization"))
             {
-                string authHeader = context.Request.Headers.Authorization.ToString();
+                var authHeader = context.Request.Headers["Authorization"].ToString();
+                bool hasBearer = authHeader.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase);
+                bool looksLikeJwt = !hasBearer && authHeader.Contains('.') && authHeader.Split('.').Length == 3;
                 
-                // Only apply to endpoints with [Authorize] attribute
-                var endpoint = context.GetEndpoint();
-                if (endpoint?.Metadata.GetMetadata<AuthorizeAttribute>() != null && !string.IsNullOrEmpty(authHeader))
+                app.Logger.LogDebug("Request Auth Header: {HasHeader}, Has Bearer Prefix: {HasBearer}, Looks Like JWT: {LooksLikeJwt}",
+                    true, hasBearer, looksLikeJwt);
+                
+                if (!hasBearer && !looksLikeJwt)
                 {
-                    // Create debug identity for any request with an Authorization header in debug mode
-                    var claims = new List<Claim>
-                    {
-                        new Claim(ClaimTypes.Name, "DebugUser"),
-                        new Claim(ClaimTypes.NameIdentifier, "debug-user-id"),
-                        new Claim("sub", "debug-user-id")
-                    };
-                    
-                    var identity = new ClaimsIdentity(claims, "Debug", ClaimTypes.Name, ClaimTypes.Role);
-                    context.User = new ClaimsPrincipal(identity);
-                    
-                    app.Logger.LogWarning("DEBUG MODE: Authentication bypassed for {Path}", context.Request.Path);
+                    app.Logger.LogWarning("Authorization header present but does not follow Bearer scheme or JWT format");
                 }
-                
-                await next();
-            });
-        }
+            }
+            
+            await next();
+            
+            if (context.Response.StatusCode == 401)
+            {
+                var authHeader = context.Request.Headers.Authorization.ToString();
+                app.Logger.LogWarning(
+                    "Authentication failed for {Path}. Auth header present: {HasHeader}. Starts with 'Bearer ': {HasBearer}",
+                    context.Request.Path,
+                    !string.IsNullOrEmpty(authHeader),
+                    authHeader.StartsWith("Bearer ")
+                );
+            }
+        });
     }
 
     // 3. Database seeding

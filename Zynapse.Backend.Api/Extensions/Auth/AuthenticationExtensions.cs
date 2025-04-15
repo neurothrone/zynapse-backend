@@ -21,65 +21,114 @@ public static class AuthenticationExtensions
     {
         var jwtSettings = configuration.GetSection("JWT");
         var secret = jwtSettings["Secret"];
-        var isDebugMode = configuration.GetValue<bool>("DebugAuth", false);
+        var issuer = jwtSettings["Issuer"];
+        var audience = jwtSettings["Audience"];
 
-        if (string.IsNullOrEmpty(secret) && !isDebugMode)
+        if (string.IsNullOrEmpty(secret))
         {
             throw new InvalidOperationException("JWT Secret is not configured");
         }
 
         services.AddAuthentication(options =>
+        {
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        })
+        .AddJwtBearer(options =>
+        {
+            // Configure token validation for Supabase tokens
+            options.TokenValidationParameters = new TokenValidationParameters
             {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(options =>
+                // For Supabase, we should validate the issuer and audience if provided
+                ValidateIssuer = !string.IsNullOrEmpty(issuer),
+                ValidIssuer = issuer,
+                
+                ValidateAudience = !string.IsNullOrEmpty(audience),
+                ValidAudience = audience,
+                
+                ValidateLifetime = true,     // Always validate token expiration
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret)),
+                ClockSkew = TimeSpan.FromMinutes(5),  // Allow for some clock skew
+                
+                // Use a single audience string or a list as needed
+                ValidateActor = false,
+                ValidTypes = new[] { "JWT" },
+                RequireSignedTokens = true,
+                RequireExpirationTime = true
+            };
+
+            // Configure security requirements
+            options.RequireHttpsMetadata = !configuration.GetValue<bool>("DisableHttpsRequirement", false);
+            options.SaveToken = true;
+            
+            // Add middleware to parse Authorization header
+            options.Events = new JwtBearerEvents
             {
-                // Configure token validation parameters
-                options.TokenValidationParameters = new TokenValidationParameters
+                OnMessageReceived = context =>
                 {
-                    ValidateIssuer = !isDebugMode,
-                    ValidateAudience = !isDebugMode,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = !isDebugMode,
-                    IssuerSigningKey = !string.IsNullOrEmpty(secret)
-                        ? new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret))
-                        : null,
-                    ClockSkew = TimeSpan.FromMinutes(5)
-                };
-
-                if (!isDebugMode && !string.IsNullOrEmpty(jwtSettings["Issuer"]))
-                {
-                    options.TokenValidationParameters.ValidIssuer = jwtSettings["Issuer"];
-                }
-
-                if (!isDebugMode && !string.IsNullOrEmpty(jwtSettings["Audience"]))
-                {
-                    options.TokenValidationParameters.ValidAudience = jwtSettings["Audience"];
-                }
-
-                // Configure HTTPS requirements
-                options.RequireHttpsMetadata = !configuration.GetValue<bool>("DisableHttpsRequirement", false);
-                options.SaveToken = true;
-
-                // Add event handlers for debugging and debugging bypass
-                options.Events = new JwtBearerEvents
-                {
-                    OnAuthenticationFailed = context =>
+                    var logger = context.HttpContext.RequestServices.GetRequiredService<ILogger<JwtBearerEvents>>();
+                    
+                    // First, check if we have a token already set (could be from a different source like query param)
+                    if (string.IsNullOrEmpty(context.Token) && context.Request.Headers.ContainsKey("Authorization"))
                     {
-                        var logger = context.HttpContext.RequestServices.GetRequiredService<ILogger<JwtBearerEvents>>();
-                        logger.LogError("Authentication failed: {Exception}", context.Exception);
-                        return Task.CompletedTask;
-                    },
-                    OnTokenValidated = context =>
-                    {
-                        var logger = context.HttpContext.RequestServices.GetRequiredService<ILogger<JwtBearerEvents>>();
-                        logger.LogInformation("Token validated successfully for user: {UserId}",
-                            context.Principal?.FindFirst("sub")?.Value);
-                        return Task.CompletedTask;
+                        var authHeader = context.Request.Headers["Authorization"].ToString();
+                        
+                        // If it starts with "Bearer ", extract the token
+                        if (authHeader.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase))
+                        {
+                            context.Token = authHeader.Substring("Bearer ".Length).Trim();
+                            logger.LogInformation("Extracted token from Authorization header with Bearer prefix");
+                        }
+                        // If no "Bearer " prefix but still looks like a JWT, use it directly
+                        else if (!string.IsNullOrEmpty(authHeader) && 
+                                 (authHeader.Contains('.') && authHeader.Split('.').Length == 3))
+                        {
+                            context.Token = authHeader.Trim();
+                            logger.LogInformation("Using token from Authorization header without Bearer prefix");
+                        }
                     }
-                };
-            });
+                    
+                    if (!string.IsNullOrEmpty(context.Token) && context.Token.Length > 10)
+                    {
+                        logger.LogDebug("Token received for authentication (first 10 chars): {TokenStart}...", 
+                            context.Token.Substring(0, 10));
+                    }
+                    else
+                    {
+                        logger.LogWarning("No valid token found in request");
+                    }
+                    
+                    return Task.CompletedTask;
+                },
+                
+                OnAuthenticationFailed = context =>
+                {
+                    var logger = context.HttpContext.RequestServices.GetRequiredService<ILogger<JwtBearerEvents>>();
+                    
+                    if (context.Exception is SecurityTokenExpiredException)
+                    {
+                        logger.LogWarning("Token has expired");
+                        context.Response.Headers["Token-Expired"] = "true";
+                    }
+                    else
+                    {
+                        logger.LogError("Authentication failed: {ExceptionType}: {Exception}", 
+                            context.Exception.GetType().Name, context.Exception.Message);
+                    }
+                    
+                    return Task.CompletedTask;
+                },
+                
+                OnTokenValidated = context =>
+                {
+                    var logger = context.HttpContext.RequestServices.GetRequiredService<ILogger<JwtBearerEvents>>();
+                    var userId = context.Principal?.FindFirst("sub")?.Value ?? "unknown";
+                    logger.LogInformation("Token validated successfully for user: {UserId}", userId);
+                    return Task.CompletedTask;
+                }
+            };
+        });
 
         return services;
     }
