@@ -12,7 +12,9 @@ public static class ProductEndpoints
             .WithSummary("Create a new product.")
             .WithDescription("Creates a new product.")
             .Produces<Product>(StatusCodes.Status201Created)
-            .Produces(StatusCodes.Status400BadRequest);
+            .Produces(StatusCodes.Status400BadRequest)
+            .Produces(StatusCodes.Status401Unauthorized)
+            .RequireAuthorization();
 
         group.MapGet("", ProductHandlers.GetProductsAsync)
             .WithSummary("Get all products, optionally filtered by category.")
@@ -35,11 +37,15 @@ public static class ProductEndpoints
         group.MapPut("/{id:int:min(0)}", ProductHandlers.UpdateProductAsync)
             .WithSummary("Update a product by its ID.")
             .Produces(StatusCodes.Status200OK)
-            .Produces(StatusCodes.Status404NotFound);
+            .Produces(StatusCodes.Status401Unauthorized)
+            .Produces(StatusCodes.Status404NotFound)
+            .RequireAuthorization();
 
         group.MapDelete("/{id:int:min(0)}", ProductHandlers.DeleteProductAsync)
             .WithSummary("Delete a product by its ID.")
             .Produces(StatusCodes.Status200OK)
-            .Produces(StatusCodes.Status404NotFound);
+            .Produces(StatusCodes.Status401Unauthorized)
+            .Produces(StatusCodes.Status404NotFound)
+            .RequireAuthorization();
     }
 }
