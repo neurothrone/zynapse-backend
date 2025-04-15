@@ -9,117 +9,125 @@ using Zynapse.Backend.Api.Extensions.Auth;
 using Zynapse.Backend.Api.Extensions;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<ZynapseDbContext>(options =>
-    options.UseNpgsql(
-        builder.Configuration.GetConnectionString("SupabaseConnection") ??
-        throw new InvalidOperationException("Connection string 'SupabaseConnection' not found.")
-    )
-);
-
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowLocalhost3000", policyBuilder =>
-    {
-        policyBuilder.WithOrigins("http://localhost:3000") // Allow specific origin
-            .AllowAnyMethod() // Allow all HTTP methods (GET, POST, etc.)
-            .AllowAnyHeader()
-            .AllowCredentials(); // Required for cookies, if used
-    });
-});
-
-// Add JWT Authentication
-builder.Services.AddJwtAuthentication(builder.Configuration);
-builder.Services.AddAuthorization();
-
-// Register JWT validation service
-builder.Services.AddScoped<IJwtValidationService, JwtValidationService>();
-
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerWithJwtAuth(); // Use the custom Swagger extension
-
-builder.Services.AddScoped<IProductRepository, ProductRepository>();
-builder.Services.AddScoped<IProductService, ProductService>();
+// Configure services
+ConfigureServices(builder.Services, builder.Configuration, builder.Environment);
 
 var app = builder.Build();
 
-app.UseCors("AllowLocalhost3000");
+// Configure middleware pipeline
+ConfigureMiddlewarePipeline(app);
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+app.Run();
+
+// Service configuration
+void ConfigureServices(IServiceCollection services, IConfiguration configuration, IWebHostEnvironment environment)
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-    
-    // Add development bypass for authentication (complete override)
-    bool isDebugMode = app.Configuration.GetValue<bool>("DebugAuth", false);
-    if (isDebugMode)
+    // Database
+    services.AddDbContext<ZynapseDbContext>(options =>
+        options.UseNpgsql(
+            configuration.GetConnectionString("SupabaseConnection") ??
+            throw new InvalidOperationException("Connection string 'SupabaseConnection' not found.")
+        )
+    );
+
+    // CORS
+    services.AddCors(options =>
     {
-        // BYPASS: Authentication in development mode
-        app.Use(async (context, next) =>
+        options.AddPolicy("AllowLocalhost3000", policyBuilder =>
         {
-            // Log all requests for debugging
-            var logger = context.RequestServices.GetRequiredService<ILogger<Program>>();
-            logger.LogInformation("Request: {Method} {Path}", context.Request.Method, context.Request.Path);
-            
-            // Check if this is a protected endpoint that needs auth
-            var endpoint = context.GetEndpoint();
-            if (endpoint?.Metadata.GetMetadata<AuthorizeAttribute>() != null)
+            policyBuilder.WithOrigins("http://localhost:3000") // Allow specific origin
+                .AllowAnyMethod() // Allow all HTTP methods (GET, POST, etc.)
+                .AllowAnyHeader()
+                .AllowCredentials(); // Required for cookies, if used
+        });
+    });
+
+    // Authentication & Authorization
+    services.AddJwtAuthentication(configuration);
+    services.AddAuthorization();
+
+    // API Documentation
+    services.AddEndpointsApiExplorer();
+    services.AddSwaggerWithJwtAuth();
+
+    // Application Services
+    services.AddScoped<IJwtValidationService, JwtValidationService>();
+    services.AddScoped<IProductRepository, ProductRepository>();
+    services.AddScoped<IProductService, ProductService>();
+}
+
+// Middleware configuration
+void ConfigureMiddlewarePipeline(WebApplication app)
+{
+    // Middleware execution order is important!
+    
+    // 1. CORS must be first
+    app.UseCors("AllowLocalhost3000");
+
+    // 2. Development-only middleware
+    if (app.Environment.IsDevelopment())
+    {
+        // API documentation
+        app.UseSwagger();
+        app.UseSwaggerUI();
+        
+        // Debug authentication bypass
+        bool isDebugMode = app.Configuration.GetValue<bool>("DebugAuth", false);
+        if (isDebugMode)
+        {
+            app.Use(async (context, next) =>
             {
                 string authHeader = context.Request.Headers.Authorization.ToString();
-                logger.LogWarning("Protected endpoint accessed: {Path}, Auth Header: {HasAuth}", 
-                    context.Request.Path, !string.IsNullOrEmpty(authHeader));
                 
-                // Create a debug identity - simulate a logged in user
-                // This happens regardless of the token validity since we're in debug mode
-                if (!string.IsNullOrEmpty(authHeader))
+                // Only apply to endpoints with [Authorize] attribute
+                var endpoint = context.GetEndpoint();
+                if (endpoint?.Metadata.GetMetadata<AuthorizeAttribute>() != null && !string.IsNullOrEmpty(authHeader))
                 {
-                    var identity = new ClaimsIdentity(new[]
+                    // Create debug identity for any request with an Authorization header in debug mode
+                    var claims = new List<Claim>
                     {
                         new Claim(ClaimTypes.Name, "DebugUser"),
                         new Claim(ClaimTypes.NameIdentifier, "debug-user-id"),
                         new Claim("sub", "debug-user-id")
-                    }, "Debug", ClaimTypes.Name, ClaimTypes.Role);
+                    };
                     
+                    var identity = new ClaimsIdentity(claims, "Debug", ClaimTypes.Name, ClaimTypes.Role);
                     context.User = new ClaimsPrincipal(identity);
                     
-                    // Mark the user as authenticated
-                    await context.AuthenticateAsync();
-                    
-                    logger.LogWarning("DEBUG MODE: Authentication bypassed for {Path}", context.Request.Path);
+                    app.Logger.LogWarning("DEBUG MODE: Authentication bypassed for {Path}", context.Request.Path);
                 }
-            }
-            
-            await next();
-        });
+                
+                await next();
+            });
+        }
     }
+
+    // 3. Database seeding
+    using (var scope = app.Services.CreateScope())
+    {
+        var context = scope.ServiceProvider.GetRequiredService<ZynapseDbContext>();
+        ProductSeeder.SeedAsync(context, "Data/products.json").Wait();
+    }
+
+    // 4. Security middleware
+    app.UseHttpsRedirection();
+    app.UseAuthentication();
+    app.UseAuthorization();
+
+    // 5. Static files
+    app.UseStaticFiles();
+    
+    // 6. Routing
+    app.MapGet("/", context =>
+    {
+        context.Response.Redirect("/index.html");
+        return Task.CompletedTask;
+    });
+
+    // 7. API endpoints
+    app.MapProductEndpoints();
+    app.MapAuthEndpoints();
 }
-
-using (var scope = app.Services.CreateScope())
-{
-    var context = scope.ServiceProvider.GetRequiredService<ZynapseDbContext>();
-    await ProductSeeder.SeedAsync(context, "Data/products.json");
-}
-
-app.UseHttpsRedirection();
-
-// Add Authentication middleware
-app.UseAuthentication();
-app.UseAuthorization();
-
-app.UseStaticFiles();
-app.MapGet("/", context =>
-{
-    context.Response.Redirect("/index.html");
-    return Task.CompletedTask;
-});
-
-app.MapProductEndpoints();
-app.MapAuthEndpoints();
-
-app.Run();
