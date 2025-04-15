@@ -7,8 +7,6 @@ using Zynapse.Backend.Api.Endpoints;
 using Zynapse.Backend.Api.Services;
 using Zynapse.Backend.Api.Extensions.Auth;
 using Zynapse.Backend.Api.Extensions;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -63,7 +61,7 @@ void ConfigureServices(IServiceCollection services, IConfiguration configuration
 void ConfigureMiddlewarePipeline(WebApplication app)
 {
     // Middleware execution order is important!
-    
+
     // 1. CORS must be first
     app.UseCors("AllowLocalhost3000");
 
@@ -89,7 +87,7 @@ void ConfigureMiddlewarePipeline(WebApplication app)
 
     // 5. Static files
     app.UseStaticFiles();
-    
+
     // 6. Routing
     app.MapGet("/", context =>
     {
@@ -98,6 +96,6 @@ void ConfigureMiddlewarePipeline(WebApplication app)
     });
 
     // 7. API endpoints
-    app.MapProductEndpoints();
     app.MapAuthEndpoints();
+    app.MapProductEndpoints();
 }
