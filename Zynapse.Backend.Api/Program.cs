@@ -73,39 +73,6 @@ void ConfigureMiddlewarePipeline(WebApplication app)
         // API documentation
         app.UseSwagger();
         app.UseSwaggerUI();
-        
-        // Middleware to provide detailed auth error information in development
-        app.Use(async (context, next) =>
-        {
-            // Check and log authorization header format before proceeding
-            if (context.Request.Headers.ContainsKey("Authorization"))
-            {
-                var authHeader = context.Request.Headers["Authorization"].ToString();
-                bool hasBearer = authHeader.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase);
-                bool looksLikeJwt = !hasBearer && authHeader.Contains('.') && authHeader.Split('.').Length == 3;
-                
-                app.Logger.LogDebug("Request Auth Header: {HasHeader}, Has Bearer Prefix: {HasBearer}, Looks Like JWT: {LooksLikeJwt}",
-                    true, hasBearer, looksLikeJwt);
-                
-                if (!hasBearer && !looksLikeJwt)
-                {
-                    app.Logger.LogWarning("Authorization header present but does not follow Bearer scheme or JWT format");
-                }
-            }
-            
-            await next();
-            
-            if (context.Response.StatusCode == 401)
-            {
-                var authHeader = context.Request.Headers.Authorization.ToString();
-                app.Logger.LogWarning(
-                    "Authentication failed for {Path}. Auth header present: {HasHeader}. Starts with 'Bearer ': {HasBearer}",
-                    context.Request.Path,
-                    !string.IsNullOrEmpty(authHeader),
-                    authHeader.StartsWith("Bearer ")
-                );
-            }
-        });
     }
 
     // 3. Database seeding
