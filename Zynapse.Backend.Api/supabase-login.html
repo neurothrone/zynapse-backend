@@ -18,6 +18,7 @@
 
     <div style="margin-top: 20px;">
         <h3>JWT Token:</h3>
+        <label for="token" hidden></label>
         <textarea id="token" rows="10" cols="60"></textarea>
         <div>
             <button onclick="copyToken()">Copy Token</button>
@@ -27,34 +28,34 @@
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <script>
         // Initialize Supabase client
-        const { createClient } = supabase;
+        const {createClient} = supabase;
         const client = createClient(
-            'https://vvpxcaezwgeajwknnkpq.supabase.co',
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ2cHhjYWV6d2dlYWp3a25ua3BxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQzMTMyMTAsImV4cCI6MjA1OTg4OTIxMH0.Y0pautHkAncL46FMD5Vx9KhTdOhOM0P7iqAWfkUdsZM' // Replace with your Supabase public (anon) key
+            "https://vvpxcaezwgeajwknnkpq.supabase.co",
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ2cHhjYWV6d2dlYWp3a25ua3BxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQzMTMyMTAsImV4cCI6MjA1OTg4OTIxMH0.Y0pautHkAncL46FMD5Vx9KhTdOhOM0P7iqAWfkUdsZM" // Replace with your Supabase public (anon) key
         );
 
         async function signIn() {
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
 
-            const { data, error } = await client.auth.signInWithPassword({
+            const {data, error} = await client.auth.signInWithPassword({
                 email,
                 password
             });
 
             if (error) {
-                alert('Error signing in: ' + error.message);
+                alert("Error signing in: " + error.message);
                 return;
             }
 
-            document.getElementById('token').value = data.session.access_token;
+            document.getElementById("token").value = data.session.access_token;
         }
 
         function copyToken() {
-            const tokenArea = document.getElementById('token');
+            const tokenArea = document.getElementById("token");
             tokenArea.select();
-            document.execCommand('copy');
-            alert('Token copied to clipboard!');
+            document.execCommand("copy");
+            alert("Token copied to clipboard!");
         }
     </script>
 </body>
