@@ -1,6 +1,0 @@
-@Zynapse.WebApi_HostAddress = http://localhost:5096
-
-GET {{Zynapse.WebApi_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

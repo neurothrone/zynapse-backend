@@ -6,6 +6,8 @@ namespace Zynapse.Backend.Persistence.Postgres.Data;
 public class ZynapseDbContext(DbContextOptions<ZynapseDbContext> options) : DbContext(options)
 {
     public DbSet<ProductEntity> Products => Set<ProductEntity>();
+    public DbSet<CartEntity> Carts => Set<CartEntity>();
+    public DbSet<CartItemEntity> CartItems => Set<CartItemEntity>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -25,6 +27,47 @@ public class ZynapseDbContext(DbContextOptions<ZynapseDbContext> options) : DbCo
             // Ensure Description uses TEXT
             entity.Property(e => e.Description)
                 .HasColumnType("TEXT");
+        });
+
+        modelBuilder.Entity<CartEntity>(entity =>
+        {
+            entity.ToTable("carts");
+            entity.HasKey(e => e.Id);
+            
+            entity.Property(e => e.UserId)
+                .IsRequired();
+                
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+                
+            entity.Property(e => e.UpdatedAt)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+        });
+
+        modelBuilder.Entity<CartItemEntity>(entity =>
+        {
+            entity.ToTable("cart_items");
+            entity.HasKey(e => e.Id);
+            
+            entity.Property(e => e.Quantity)
+                .IsRequired();
+                
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+                
+            entity.Property(e => e.UpdatedAt)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+                
+            // Relationships
+            entity.HasOne(e => e.Cart)
+                .WithMany(c => c.Items)
+                .HasForeignKey(e => e.CartId)
+                .OnDelete(DeleteBehavior.Cascade);
+                
+            entity.HasOne(e => e.Product)
+                .WithMany()
+                .HasForeignKey(e => e.ProductId)
+                .OnDelete(DeleteBehavior.Cascade);
         });
     }
 }

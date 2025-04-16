@@ -1,13 +1,13 @@
 using System.ComponentModel.DataAnnotations;
-using Zynapse.Backend.Api.DTO;
+using Zynapse.Backend.Api.DTO.Product;
 using Zynapse.Backend.Api.Services;
 
-namespace Zynapse.Backend.Api.Endpoints;
+namespace Zynapse.Backend.Api.Endpoints.Product;
 
 // !: TypedResults API
 // Source: https://learn.microsoft.com/en-us/aspnet/core/tutorials/min-web-api?view=aspnetcore-9.0&tabs=visual-studio#use-the-typedresults-api
 
-public class ProductHandlers
+public static class ProductHandlers
 {
     public static async Task<IResult> CreateProductAsync(ProductInputDto product, IProductService service)
     {

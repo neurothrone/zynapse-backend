@@ -1,6 +1,4 @@
-using Zynapse.Backend.Api.Models;
-
-namespace Zynapse.Backend.Api.Endpoints;
+namespace Zynapse.Backend.Api.Endpoints.Product;
 
 /// <summary>
 /// Endpoint mapping for product-related API routes
@@ -15,7 +13,7 @@ public static class ProductEndpoints
         group.MapPost(string.Empty, ProductHandlers.CreateProductAsync)
             .WithSummary("Create a new product.")
             .WithDescription("Creates a new product.")
-            .Produces<Product>(StatusCodes.Status201Created)
+            .Produces<Models.Product>(StatusCodes.Status201Created)
             .Produces(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status401Unauthorized)
             .RequireAuthorization();
@@ -23,16 +21,16 @@ public static class ProductEndpoints
         // READ - Public
         group.MapGet("", ProductHandlers.GetProductsAsync)
             .WithSummary("Get all products, optionally filtered by category.")
-            .Produces<List<Product>>();
+            .Produces<List<Models.Product>>();
 
         group.MapGet("/{id:int:min(0)}", ProductHandlers.GetProductAsync)
             .WithSummary("Get a product by its ID.")
-            .Produces<Product>()
+            .Produces<Models.Product>()
             .Produces(StatusCodes.Status404NotFound);
 
         group.MapGet("random", ProductHandlers.GetRandomProductAsync)
             .WithSummary("Get a random product, optionally filtered by category.")
-            .Produces<Product>()
+            .Produces<Models.Product>()
             .Produces(StatusCodes.Status404NotFound);
 
         group.MapGet("categories", ProductHandlers.GetCategoriesAsync)
@@ -43,6 +41,7 @@ public static class ProductEndpoints
         group.MapPut("/{id:int:min(0)}", ProductHandlers.UpdateProductAsync)
             .WithSummary("Update a product by its ID.")
             .Produces(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status401Unauthorized)
             .Produces(StatusCodes.Status404NotFound)
             .RequireAuthorization();
 
@@ -50,6 +49,7 @@ public static class ProductEndpoints
         group.MapDelete("/{id:int:min(0)}", ProductHandlers.DeleteProductAsync)
             .WithSummary("Delete a product by its ID.")
             .Produces(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status401Unauthorized)
             .Produces(StatusCodes.Status404NotFound)
             .RequireAuthorization();
     }

@@ -1,4 +1,4 @@
-namespace Zynapse.Backend.Api.Endpoints;
+namespace Zynapse.Backend.Api.Endpoints.Auth;
 
 /// <summary>
 /// Endpoint mapping for authentication-related API routes

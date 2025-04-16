@@ -1,7 +1,5 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 
 namespace Zynapse.Backend.Api.Services;
 
@@ -39,16 +37,16 @@ public class JwtValidationService : IJwtValidationService
             {
                 return (false, $"Invalid issuer. Expected: {configIssuer}, Actual: {tokenIssuer}");
             }
-            
+
             // Check audience
             var tokenAudience = jwtToken.Audiences.FirstOrDefault();
             var configAudience = _configuration["JWT:Audience"];
-            
+
             if (tokenAudience != configAudience)
             {
                 return (false, $"Invalid audience. Expected: {configAudience}, Actual: {tokenAudience}");
             }
-            
+
             // Check expiration
             if (DateTime.UtcNow > jwtToken.ValidTo)
             {
@@ -72,12 +70,12 @@ public class JwtValidationService : IJwtValidationService
 
             // Try to extract user ID from standard claims
             string? userId = jwtToken.Claims.FirstOrDefault(c => c.Type == "sub")?.Value;
-            
+
             if (string.IsNullOrEmpty(userId))
             {
                 userId = jwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
             }
-            
+
             return userId;
         }
         catch
@@ -85,4 +83,4 @@ public class JwtValidationService : IJwtValidationService
             return null;
         }
     }
-} 
+}

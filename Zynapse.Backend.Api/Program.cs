@@ -3,21 +3,17 @@ using Zynapse.Backend.Persistence.Postgres.Data;
 using Zynapse.Backend.Persistence.Postgres.Interfaces;
 using Zynapse.Backend.Persistence.Postgres.Repositories;
 using Zynapse.Backend.Persistence.Postgres.Utils;
-using Zynapse.Backend.Api.Endpoints;
+using Zynapse.Backend.Api.Endpoints.Auth;
+using Zynapse.Backend.Api.Endpoints.Cart;
+using Zynapse.Backend.Api.Endpoints.Product;
 using Zynapse.Backend.Api.Services;
-using Zynapse.Backend.Api.Extensions.Auth;
+using Zynapse.Backend.Api.Services.Cart;
 using Zynapse.Backend.Api.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Configure services
 ConfigureServices(builder.Services, builder.Configuration, builder.Environment);
-
 var app = builder.Build();
-
-// Configure middleware pipeline
 ConfigureMiddlewarePipeline(app);
-
 app.Run();
 
 // Service configuration
@@ -55,6 +51,8 @@ void ConfigureServices(IServiceCollection services, IConfiguration configuration
     services.AddScoped<IJwtValidationService, JwtValidationService>();
     services.AddScoped<IProductRepository, ProductRepository>();
     services.AddScoped<IProductService, ProductService>();
+    services.AddScoped<ICartRepository, CartRepository>();
+    services.AddScoped<ICartService, CartService>();
 }
 
 // Middleware configuration
@@ -97,5 +95,6 @@ void ConfigureMiddlewarePipeline(WebApplication app)
 
     // 7. API endpoints
     app.MapAuthEndpoints();
+    app.MapCartEndpoints();
     app.MapProductEndpoints();
 }

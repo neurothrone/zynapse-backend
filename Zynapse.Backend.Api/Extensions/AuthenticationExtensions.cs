@@ -2,7 +2,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Zynapse.Backend.Api.Extensions.Auth;
+namespace Zynapse.Backend.Api.Extensions;
 
 /// <summary>
 /// Extensions for configuring JWT authentication in the application

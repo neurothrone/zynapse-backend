@@ -1,4 +1,4 @@
-using Zynapse.Backend.Api.DTO;
+using Zynapse.Backend.Api.DTO.Product;
 using Zynapse.Backend.Api.Models;
 using Zynapse.Backend.Shared.Utils;
 
