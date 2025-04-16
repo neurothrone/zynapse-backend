@@ -34,7 +34,8 @@ public static class CartEndpoints
 
         // REMOVE item from cart
         group.MapDelete("items/{id:int:min(0)}", CartHandlers.RemoveItemFromCartAsync)
-            .WithSummary("Remove an item from the cart. By default, decrements quantity by 1. If quantity reaches 0, removes the item entirely.")
+            .WithSummary(
+                "Remove an item from the cart. By default, decrements quantity by 1. If quantity reaches 0, removes the item entirely.")
             .WithDescription("Specify a 'quantity' query parameter to decrement by more than 1.")
             .Produces<CartOutputDto>(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status404NotFound)
