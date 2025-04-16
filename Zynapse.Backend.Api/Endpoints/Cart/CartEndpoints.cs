@@ -12,7 +12,7 @@ public static class CartEndpoints
         var group = routes.MapGroup("api/v1/cart").RequireAuthorization();
 
         // GET cart
-        group.MapGet("", CartHandlers.GetCartAsync)
+        group.MapGet(string.Empty, CartHandlers.GetCartAsync)
             .WithSummary("Get the user's cart")
             .Produces<CartOutputDto>()
             .Produces(StatusCodes.Status401Unauthorized);
@@ -32,9 +32,9 @@ public static class CartEndpoints
             .Produces(StatusCodes.Status401Unauthorized);
 
         // CLEAR cart
-        group.MapDelete("", CartHandlers.ClearCartAsync)
+        group.MapDelete(string.Empty, CartHandlers.ClearCartAsync)
             .WithSummary("Clear the cart")
             .Produces<CartOutputDto>(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status401Unauthorized);
     }
-} 
+}
