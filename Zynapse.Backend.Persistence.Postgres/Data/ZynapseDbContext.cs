@@ -42,6 +42,10 @@ public class ZynapseDbContext(DbContextOptions<ZynapseDbContext> options) : DbCo
                 
             entity.Property(e => e.UpdatedAt)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP");
+                
+            // Add index on UserId for faster lookups
+            entity.HasIndex(e => e.UserId)
+                .HasDatabaseName("IX_carts_UserId");
         });
 
         modelBuilder.Entity<CartItemEntity>(entity =>

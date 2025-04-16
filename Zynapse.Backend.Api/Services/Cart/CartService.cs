@@ -30,15 +30,26 @@ public class CartService : ICartService
 
     public async Task<Result<CartOutputDto>> AddItemToCartAsync(string userId, CartItemInputDto item)
     {
-        // Validate product exists and has enough stock
+        // Validate product exists
         var productResult = await _productService.GetProductAsync(item.ProductId);
         if (productResult.IsFailure())
             return Result<CartOutputDto>.Failure("Product not found.");
 
         var product = productResult.Value();
-        if (product.Stock < item.Quantity)
-            return Result<CartOutputDto>.Failure($"Insufficient stock. Only {product.Stock} available.");
-
+        
+        // First get current cart to check existing quantity
+        var cartResult = await GetCartAsync(userId);
+        if (cartResult.IsFailure())
+            return cartResult;
+            
+        var cart = cartResult.Value();
+        var existingItem = cart.Items.FirstOrDefault(i => i.Product.Id == item.ProductId);
+        var currentQuantity = existingItem?.Quantity ?? 0;
+        
+        // Check if adding the requested quantity would exceed available stock
+        if (currentQuantity + item.Quantity > product.Stock)
+            return Result<CartOutputDto>.Failure($"Insufficient stock. Only {product.Stock} available, and you already have {currentQuantity} in your cart.");
+            
         var result = await _cartRepository.AddItemToCartAsync(userId, item.ProductId, item.Quantity);
         return result.Match<Result<CartOutputDto>>(
             onSuccess: cart => Result<CartOutputDto>.Success(MapCartToDto(cart)),
@@ -46,9 +57,40 @@ public class CartService : ICartService
         );
     }
 
-    public async Task<Result<CartOutputDto>> RemoveItemFromCartAsync(string userId, int cartItemId)
+    public async Task<Result<CartOutputDto>> UpdateItemQuantityAsync(string userId, int cartItemId, int quantity)
     {
-        var result = await _cartRepository.RemoveItemFromCartAsync(userId, cartItemId);
+        // Get current cart
+        var cartResult = await GetCartAsync(userId);
+        if (cartResult.IsFailure())
+            return cartResult;
+            
+        var cart = cartResult.Value();
+        var existingItem = cart.Items.FirstOrDefault(i => i.Id == cartItemId);
+        
+        if (existingItem == null)
+            return Result<CartOutputDto>.Failure("Item not found in cart.");
+            
+        // Validate product exists and has enough stock
+        var productResult = await _productService.GetProductAsync(existingItem.Product.Id);
+        if (productResult.IsFailure())
+            return Result<CartOutputDto>.Failure("Product not found.");
+            
+        var product = productResult.Value();
+        
+        // Check if the requested quantity exceeds available stock
+        if (quantity > product.Stock)
+            return Result<CartOutputDto>.Failure($"Insufficient stock. Only {product.Stock} available.");
+        
+        var result = await _cartRepository.UpdateItemQuantityAsync(userId, cartItemId, quantity);
+        return result.Match<Result<CartOutputDto>>(
+            onSuccess: cart => Result<CartOutputDto>.Success(MapCartToDto(cart)),
+            onFailure: Result<CartOutputDto>.Failure
+        );
+    }
+
+    public async Task<Result<CartOutputDto>> RemoveItemFromCartAsync(string userId, int cartItemId, int quantity = 1)
+    {
+        var result = await _cartRepository.RemoveItemFromCartAsync(userId, cartItemId, quantity);
         return result.Match<Result<CartOutputDto>>(
             onSuccess: cart => Result<CartOutputDto>.Success(MapCartToDto(cart)),
             onFailure: Result<CartOutputDto>.Failure

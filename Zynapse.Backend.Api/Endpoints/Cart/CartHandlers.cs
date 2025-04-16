@@ -39,13 +39,20 @@ public static class CartHandlers
         );
     }
 
-    public static async Task<IResult> RemoveItemFromCartAsync(int id, ClaimsPrincipal user, ICartService service)
+    public static async Task<IResult> RemoveItemFromCartAsync(
+        int id, 
+        ClaimsPrincipal user, 
+        ICartService service,
+        int quantity = 1)
     {
+        if (quantity <= 0)
+            return TypedResults.BadRequest("Quantity must be greater than zero.");
+            
         var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
         if (string.IsNullOrEmpty(userId))
             return TypedResults.Unauthorized();
 
-        var result = await service.RemoveItemFromCartAsync(userId, id);
+        var result = await service.RemoveItemFromCartAsync(userId, id, quantity);
         return result.Match<IResult>(
             onSuccess: TypedResults.Ok,
             onFailure: TypedResults.NotFound
@@ -62,6 +69,26 @@ public static class CartHandlers
         return result.Match<IResult>(
             onSuccess: TypedResults.Ok,
             onFailure: error => TypedResults.Problem(error, statusCode: StatusCodes.Status500InternalServerError)
+        );
+    }
+
+    public static async Task<IResult> UpdateItemQuantityAsync(
+        int id, 
+        ClaimsPrincipal user,
+        UpdateCartItemQuantityDto updateDto,
+        ICartService service)
+    {
+        if (!Validator.TryValidateObject(updateDto, new ValidationContext(updateDto), null, true))
+            return TypedResults.BadRequest("Invalid update data.");
+            
+        var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (string.IsNullOrEmpty(userId))
+            return TypedResults.Unauthorized();
+
+        var result = await service.UpdateItemQuantityAsync(userId, id, updateDto.Quantity);
+        return result.Match<IResult>(
+            onSuccess: TypedResults.Ok,
+            onFailure: TypedResults.BadRequest
         );
     }
 } 

@@ -24,9 +24,18 @@ public static class CartEndpoints
             .Produces(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status401Unauthorized);
 
+        // UPDATE item quantity
+        group.MapPatch("items/{id:int:min(0)}", CartHandlers.UpdateItemQuantityAsync)
+            .WithSummary("Update the quantity of an item in the cart")
+            .Produces<CartOutputDto>(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status400BadRequest)
+            .Produces(StatusCodes.Status404NotFound)
+            .Produces(StatusCodes.Status401Unauthorized);
+
         // REMOVE item from cart
         group.MapDelete("items/{id:int:min(0)}", CartHandlers.RemoveItemFromCartAsync)
-            .WithSummary("Remove an item from the cart")
+            .WithSummary("Remove an item from the cart. By default, decrements quantity by 1. If quantity reaches 0, removes the item entirely.")
+            .WithDescription("Specify a 'quantity' query parameter to decrement by more than 1.")
             .Produces<CartOutputDto>(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status404NotFound)
             .Produces(StatusCodes.Status401Unauthorized);

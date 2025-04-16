@@ -67,7 +67,7 @@ public class CartRepository(ZynapseDbContext context) : ICartRepository
         }
     }
 
-    public async Task<Result<CartEntity>> RemoveItemFromCartAsync(string userId, int cartItemId)
+    public async Task<Result<CartEntity>> UpdateItemQuantityAsync(string userId, int cartItemId, int quantity)
     {
         try
         {
@@ -78,8 +78,47 @@ public class CartRepository(ZynapseDbContext context) : ICartRepository
             if (item == null)
                 return Result<CartEntity>.Failure("Item not found in cart.");
 
-            // Remove the item
-            context.Entry(item).State = EntityState.Deleted;
+            // Set the exact quantity specified
+            item.Quantity = quantity;
+            
+            if (item.Quantity <= 0)
+            {
+                // Remove item if quantity zero or negative
+                context.Entry(item).State = EntityState.Deleted;
+            }
+
+            item.UpdatedAt = DateTime.UtcNow;
+            cart.UpdatedAt = DateTime.UtcNow;
+            await context.SaveChangesAsync();
+
+            // Reload cart
+            return await GetCartAsync(userId);
+        }
+        catch (Exception ex)
+        {
+            return Result<CartEntity>.Failure($"Failed to update item quantity: {ex.Message}");
+        }
+    }
+
+    public async Task<Result<CartEntity>> RemoveItemFromCartAsync(string userId, int cartItemId, int quantity = 1)
+    {
+        try
+        {
+            var cart = await GetOrCreateCartAsync(userId);
+
+            // Find the item
+            var item = cart.Items.FirstOrDefault(i => i.Id == cartItemId);
+            if (item == null)
+                return Result<CartEntity>.Failure("Item not found in cart.");
+
+            // Decrement quantity
+            item.Quantity -= quantity;
+            
+            // Remove item if quantity is zero or less
+            if (item.Quantity <= 0)
+            {
+                context.Entry(item).State = EntityState.Deleted;
+            }
 
             cart.UpdatedAt = DateTime.UtcNow;
             await context.SaveChangesAsync();
