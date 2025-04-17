@@ -5,7 +5,7 @@ public class CartItem
     public int Id { get; set; }
     public int CartId { get; set; }
     public int ProductId { get; set; }
-    public Models.Product Product { get; set; } = null!;
+    public Product Product { get; set; } = null!;
     public int Quantity { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
