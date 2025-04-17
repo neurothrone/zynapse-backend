@@ -1,0 +1,46 @@
+trigger: none
+
+pool:
+  vmImage: "ubuntu-latest"
+
+jobs:
+  - job: PR_Notification
+    displayName: "Notify Discord on PR Event"
+    condition: eq(variables['Build.Reason'], 'PullRequest')
+
+    steps:
+      - script: |
+          echo "Processing Pull Request event..."
+        displayName: "Process PR Data"
+
+      - script: |
+          echo "Sending pull request notification to Discord..."
+
+          payload=$(jq -n \
+            --arg repo "${BUILD_REPOSITORY_NAME}" \
+            --arg branch "${SYSTEM_PULLREQUEST_SOURCEBRANCH##*/}" \
+            --arg author "${BUILD_REQUESTEDFOR}" \
+            --arg id "${SYSTEM_PULLREQUEST_PULLREQUESTID:-N/A}" \
+            '{
+              content: "",
+              embeds: [{
+                title: "Pull Request Notification",
+                description: "A new pull request has triggered the pipeline.",
+                color: 15105570,
+                fields: [
+                  { name: "Repository", value: $repo },
+                  { name: "Source Branch", value: $branch },
+                  { name: "Triggered By", value: $author },
+                  { name: "Pull Request ID", value: $id }
+                ]
+              }]
+            }'
+          )
+
+          curl -H "Content-Type: application/json" \
+               -X POST \
+               -d "$payload" \
+               "$DiscordWebhookURL"
+        env:
+          DiscordWebhookURL: $(DiscordWebhookURL)
+        displayName: "Notify Discord (Pull Request)"

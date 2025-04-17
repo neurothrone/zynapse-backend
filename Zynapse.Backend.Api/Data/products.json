@@ -1,0 +1,352 @@
+[
+  {
+    "product": "Moonlighter",
+    "price": 200,
+    "inventory": null,
+    "steam-link": "https://store.steampowered.com/app/606150/Moonlighter/",
+    "description": null
+  },
+  {
+    "product": "Night in the woods",
+    "price": 195,
+    "inventory": null,
+    "steam-link": "https://store.steampowered.com/app/481510/Night_in_the_Woods/",
+    "description": null
+  },
+  {
+    "product": "Hustle cat",
+    "price": 170,
+    "inventory": null,
+    "steam-link": "https://store.steampowered.com/app/453340/Hustle_Cat/",
+    "description": null
+  },
+  {
+    "product": "Divinity: Original Sin 2 - Definitive Edition",
+    "price": 450,
+    "inventory": null,
+    "steam-link": "https://store.steampowered.com/app/435150/Divinity_Original_Sin_2__Definitive_Edition",
+    "description": null
+  },
+  {
+    "product": "Dragon Age: Origins - Ultimate Edition",
+    "price": 300,
+    "inventory": null,
+    "steam-link": "https://store.steampowered.com/app/47810/Dragon_Age_Origins__Ultimate_Edition",
+    "description": null
+  },
+  {
+    "product": "My Time at Portia",
+    "price": 300,
+    "inventory": null,
+    "steam-link": "https://store.steampowered.com/app/666140/My_Time_at_Portia",
+    "description": null
+  },
+  {
+    "product": "The Technomancer",
+    "price": 100,
+    "inventory": null,
+    "steam-link": "https://store.steampowered.com/app/338390/The_Technomancer",
+    "description": null
+  },
+  {
+    "product": "Stardew valley",
+    "price": 140,
+    "inventory": null,
+    "steam-link": "https://store.steampowered.com/app/413150/Stardew_Valley",
+    "description": null
+  },
+  {
+    "product": "Ironheart",
+    "price": 67,
+    "inventory": null,
+    "steam-link": "https://store.steampowered.com/app/1171840/Ironheart",
+    "description": null
+  },
+  {
+    "product": "Newfound Courage",
+    "price": 89,
+    "inventory": null,
+    "steam-link": "https://store.steampowered.com/app/893790/Newfound_Courage",
+    "description": null
+  },
+  {
+    "product": "Vampyr",
+    "price": 399,
+    "inventory": null,
+    "steam-link": "https://store.steampowered.com/app/427290/Vampyr",
+    "description": null
+  },
+  {
+    "product": "Love is dead",
+    "price": 118,
+    "inventory": null,
+    "steam-link": "https://store.steampowered.com/app/453910/Love_is_Dead",
+    "description": null
+  },
+  {
+    "product": "These nights in Cairo",
+    "price": 79,
+    "inventory": null,
+    "steam-link": "https://store.steampowered.com/app/612100/These_nights_in_Cairo",
+    "description": null
+  },
+  {
+    "product": "The Purrfect date",
+    "price": 100,
+    "inventory": null,
+    "steam-link": "https://store.steampowered.com/app/520600/Purrfect_Date__Visual_NovelDating_Simulator",
+    "description": null
+  },
+  {
+    "product": "Tacoma",
+    "price": 195,
+    "inventory": null,
+    "steam-link": "https://store.steampowered.com/app/343860/Tacoma",
+    "description": null
+  },
+  {
+    "product": "The Pirates's Fate",
+    "price": 200,
+    "inventory": null,
+    "steam-link": "https://store.steampowered.com/app/553480/The_Pirates_Fate",
+    "description": null
+  },
+  {
+    "product": "Witcher 3 - the wild hunt",
+    "price": 299,
+    "inventory": null,
+    "steam-link": "https://store.steampowered.com/app/292030/The_Witcher_3_Wild_Hunt/",
+    "description": null
+  },
+  {
+    "product": "Hot tin roof",
+    "price": 148,
+    "inventory": null,
+    "steam-link": "https://store.steampowered.com/app/253390/Hot_Tin_Roof_The_Cat_That_Wore_A_Fedora",
+    "description": null
+  },
+  {
+    "product": "Firewatch",
+    "price": 195,
+    "inventory": null,
+    "steam-link": "https://store.steampowered.com/app/383870/Firewatch",
+    "description": null
+  },
+  {
+    "product": "Pillars of Eternity",
+    "price": 279,
+    "inventory": null,
+    "steam-link": "https://store.steampowered.com/app/291650/Pillars_of_Eternity",
+    "description": null
+  },
+  {
+    "product": "Dreamfall chapters",
+    "price": 249,
+    "inventory": null,
+    "steam-link": "https://store.steampowered.com/app/237850/Dreamfall_Chapters",
+    "description": null
+  },
+  {
+    "product": "Transistor",
+    "price": 195,
+    "inventory": null,
+    "steam-link": "https://store.steampowered.com/app/237930/Transistor",
+    "description": null
+  },
+  {
+    "product": "Sunless sea",
+    "price": 189,
+    "inventory": null,
+    "steam-link": "https://store.steampowered.com/app/304650/SUNLESS_SEA",
+    "description": null
+  },
+  {
+    "product": "Hatoful Boyfriend",
+    "price": 79,
+    "inventory": null,
+    "steam-link": "https://store.steampowered.com/app/310080/Hatoful_Boyfriend",
+    "description": null
+  },
+  {
+    "product": "Assasins Creed syndicate",
+    "price": 398,
+    "inventory": null,
+    "steam-link": "https://store.steampowered.com/app/368500/Assassins_Creed_Syndicate",
+    "description": null
+  },
+  {
+    "product": "Saints Row IV: Re-Elected",
+    "price": 199,
+    "inventory": null,
+    "steam-link": "https://store.steampowered.com/app/206420/Saints_Row_IV_ReElected",
+    "description": null
+  },
+  {
+    "product": "Valkyria Chronicles",
+    "price": 200,
+    "inventory": null,
+    "steam-link": "https://store.steampowered.com/app/294860/Valkyria_Chronicles",
+    "description": null
+  },
+  {
+    "product": "Mass Effect",
+    "price": 300,
+    "inventory": null,
+    "steam-link": "https://store.steampowered.com/app/17460/Mass_Effect_2007",
+    "description": null
+  },
+  {
+    "product": "Fallout 2",
+    "price": 99,
+    "inventory": null,
+    "steam-link": "https://store.steampowered.com/app/38410/Fallout_2_A_Post_Nuclear_Role_Playing_Game",
+    "description": null
+  },
+  {
+    "product": "Fable Anniversary",
+    "price": 300,
+    "inventory": null,
+    "steam-link": "https://store.steampowered.com/app/288470/Fable_Anniversary",
+    "description": null
+  },
+  {
+    "product": "Undertale",
+    "price": 99,
+    "inventory": null,
+    "steam-link": "https://store.steampowered.com/app/391540/Undertale",
+    "description": null
+  },
+  {
+    "product": "The Yawhg",
+    "price": 99,
+    "inventory": null,
+    "steam-link": "https://store.steampowered.com/app/269030/The_Yawhg",
+    "description": null
+  },
+  {
+    "product": "Gone Home",
+    "price": 147,
+    "inventory": null,
+    "steam-link": "https://store.steampowered.com/app/232430/Gone_Home",
+    "description": null
+  },
+  {
+    "product": "The Sims 3",
+    "price": 199,
+    "inventory": null,
+    "steam-link": "https://store.steampowered.com/app/47890/The_Sims_3",
+    "description": null
+  },
+  {
+    "product": "Life is strange: before the storm",
+    "price": 399,
+    "inventory": null,
+    "steam-link": "https://store.steampowered.com/app/1265930/Life_is_Strange_Before_the_Storm_Remastered",
+    "description": null
+  },
+  {
+    "product": "In other waters",
+    "price": 148,
+    "inventory": null,
+    "steam-link": "https://store.steampowered.com/app/890720/In_Other_Waters",
+    "description": null
+  },
+  {
+    "product": "Ikenfell",
+    "price": 200,
+    "inventory": null,
+    "steam-link": "https://store.steampowered.com/app/854940/Ikenfell",
+    "description": null
+  },
+  {
+    "product": "Summer in Mara",
+    "price": 199,
+    "inventory": null,
+    "steam-link": "https://store.steampowered.com/app/962580/Summer_in_Mara/",
+    "description": null
+  },
+  {
+    "product": "Dream Daddy: A Dad Dating Simulator",
+    "price": 149,
+    "inventory": null,
+    "steam-link": "https://store.steampowered.com/app/654880/Dream_Daddy_A_Dad_Dating_Simulator",
+    "description": null
+  },
+  {
+    "product": "No Longer Home",
+    "price": 145,
+    "inventory": null,
+    "steam-link": "https://store.steampowered.com/app/651490/No_Longer_Home",
+    "description": null
+  },
+  {
+    "product": "The Cat Lady",
+    "price": 97,
+    "inventory": null,
+    "steam-link": "https://store.steampowered.com/app/253110/The_Cat_Lady/",
+    "description": null
+  },
+  {
+    "product": "Logitech G Pro X Gaming Headset 7.1",
+    "price": 859,
+    "inventory": 7,
+    "steam-link": "https://www.prisjakt.nu/produkt.php?p=5168477#properties",
+    "description": "https://www.prisjakt.nu/produkt.php?p=5168477#properties"
+  },
+  {
+    "product": "Logitech G Astro A50 Gen 5 LIGHTSPEED Wireless Gaming Headset",
+    "price": 3798,
+    "inventory": 23,
+    "steam-link": null,
+    "description": "https://www.prisjakt.nu/produkt.php?p=13870017#properties"
+  },
+  {
+    "product": "Sennheiser HD 660S2",
+    "price": 4300,
+    "inventory": 4,
+    "steam-link": null,
+    "description": "https://www.prisjakt.nu/produkt.php?p=7575049"
+  },
+  {
+    "product": "Razor Naga v2",
+    "price": 1925,
+    "inventory": 67,
+    "steam-link": null,
+    "description": "https://www.prisjakt.nu/produkt.php?p=7207194"
+  },
+  {
+    "product": "SteelSeries Apex Pro TKL Gen 3 Wireless (Nordic)",
+    "price": 3399,
+    "inventory": 15,
+    "steam-link": null,
+    "description": "https://www.prisjakt.nu/produkt.php?p=13880574"
+  },
+  {
+    "product": "Keychron Q5 Max QMK Trådlöst Mekaniskt Tangentbord [Gateron Jupiter Brown] IS",
+    "price": 3490,
+    "inventory": 9,
+    "steam-link": null,
+    "description": "https://www.prisjakt.nu/produkt.php?p=13685328"
+  },
+  {
+    "product": "Musmatta - Konix Drakkar",
+    "price": 170,
+    "inventory": 34,
+    "steam-link": null,
+    "description": "https://www.prisjakt.nu/produkt.php?p=3604462"
+  },
+  {
+    "product": "Might and Magic II - Bigbox",
+    "price": 1499,
+    "inventory": 1,
+    "steam-link": null,
+    "description": "https://www.ebay.com/itm/236028453932?_skw=might+and+magic+ii&itmmeta=01JR85BSR7CNJKCMHMY7F5C4P5&hash=item36f464642c:g:H8AAAOSw9qZn6PtW&itmprp=enc%3AAQAKAAAA8IUNi59bckQcV2ImusJGAkGPchl6vdoGLB0ayC7fadF0Xz8%2FGxremBsgqF3KoNxYU%2BRKMfGiFBuJ2Q8GyxlK1rVk6d%2FyPUBlCzjbpqWgGmkMn51SS6a0G8g24K4xbPWgf9BZEwaqbkzNkj4m3BhkhUspmSYwP5DT76yuw1W4jMMF%2BqKT7MdKKUbCVAsk%2BZTJGr8ixTw2uWPbBHSFLfoZ8oF%2BW1dUXSVGtXQz6JEHhIMtkfgxkupyqMv%2BQ%2FlYzd2cayHL%2BiS5AXl0XM14TUjQQVYl%2BKRBDNY8Y1XIPrUnHNmQ4UwyonyE8SC%2BRetpF%2BcchQ%3D%3D%7Ctkp%3ABk9SR6Scr4XCZQ"
+  },
+  {
+    "product": "Might and Magic VI Bigbox - Japan",
+    "price": 1259,
+    "inventory": 1,
+    "steam-link": null,
+    "description": "https://www.ebay.com/itm/176563248152?_skw=might+and+magic+6&itmmeta=01JR85FB5X4TNHDJDFRMSD02WP&hash=item291bfd5c18:g:DiMAAOSwkXxm24AS&itmprp=enc%3AAQAKAAAA8IUNi59bckQcV2ImusJGAkHPYQDeS05wayTJ%2BLvMMunpjoMwZXPYbps%2BDeILafWXeQJ4a9tLOqPo0DnLNbdBI6z5YpM%2BDJoegFyTX6B8n9lGhWcpCBAN9qXwaro4so2CmQpZ3Mfjr7ebPi7a%2BwAxtI%2BCi%2FDHHtxhFaZoiSlHB1%2F1nSS7mc72SmwLR87fQ9G%2BwT2DiXMq4Crn8XPsiojiNraGQvHyup%2BHGZjwwPLPZKpfNaU3MxEI2dI0cP1TUbif91mbsFK3xOxaQu9wIe11bMYw2NqrCFgSH%2Fo8UIsubJWOJCqM%2F2r4Iow%2FJPrbZH1rGg%3D%3D%7Ctkp%3ABk9SR5azvYXCZQ"
+  }
+]

@@ -1,0 +1,53 @@
+trigger:
+  branches:
+    include:
+      - main
+
+pool:
+  vmImage: "ubuntu-latest"
+
+variables:
+  buildConfiguration: "Release"
+
+stages:
+  - stage: Build
+    jobs:
+      - job: BuildApi
+        steps:
+          - task: UseDotNet@2
+            inputs:
+              packageType: "sdk"
+              version: "8.0.x"
+
+          - script: dotnet restore Zynapse.Api/Zynapse.Api.csproj
+            displayName: "Restore"
+
+          - script: dotnet build Zynapse.Api/Zynapse.Api.csproj --configuration $(buildConfiguration)
+            displayName: "Build"
+
+          - script: dotnet publish Zynapse.Api/Zynapse.Api.csproj --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)
+            displayName: "Publish"
+
+          - task: PublishBuildArtifacts@1
+            inputs:
+              pathToPublish: "$(Build.ArtifactStagingDirectory)"
+              artifactName: "drop"
+
+  - stage: Deploy
+    dependsOn: Build
+    jobs:
+      - deployment: DeployWebApp
+        environment: "production"
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - download: current
+                  artifact: drop
+
+                - task: AzureWebApp@1
+                  inputs:
+                    azureSubscription: "AzureRM-ZynapseBackend"
+                    appType: "webAppLinux"
+                    appName: "zynapse-api"
+                    package: "$(Pipeline.Workspace)/drop"
