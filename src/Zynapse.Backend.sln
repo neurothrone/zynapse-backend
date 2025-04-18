@@ -10,6 +10,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Applications", "Application
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{8EDBBEF5-83FA-4AA7-94C6-B1EB379AB8A3}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{72CEE630-C98A-422D-B13B-E183A6339EF7}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = ../.gitignore
+		deploy-api.yml = ../.azure-pipelines/deploy-api.yml
+		pr-discord-notify.yml = ../.azure-pipelines/pr-discord-notify.yml
+		pr-build-validation.yml = ../.github/workflows/pr-build-validation.yml
+	    README.md = ../README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
