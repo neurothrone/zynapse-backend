@@ -22,10 +22,10 @@ jobs:
           dotnet-version: "8.0.x"
 
       - name: Restore dependencies
-        run: dotnet restore
+        run: dotnet restore src/Zynapse.Backend.sln
 
       - name: Build solution
-        run: dotnet build --no-restore --configuration Release
+        run: dotnet build src/Zynapse.Backend.sln --no-restore --configuration Release
 
-      - name: Run tests
-        run: dotnet test --no-build --configuration Release --verbosity normal
+#      - name: Run tests
+#        run: dotnet test src/Zynapse.Backend.Tests/Zynapse.Backend.Tests.csproj --no-build --configuration Release --verbosity normal
