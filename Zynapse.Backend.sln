@@ -1,10 +1,10 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zynapse.Backend.Api", "Zynapse.Backend.Api\Zynapse.Backend.Api.csproj", "{298313D9-EE7B-4433-9600-5C3592AD0758}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zynapse.Backend.Api", "src/Zynapse.Backend.Api\Zynapse.Backend.Api.csproj", "{298313D9-EE7B-4433-9600-5C3592AD0758}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zynapse.Backend.Persistence.Postgres", "Zynapse.Backend.Persistence.Postgres\Zynapse.Backend.Persistence.Postgres.csproj", "{DB1662EF-E1BA-4C4A-891B-6E9A156B2E8C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zynapse.Backend.Persistence.Postgres", "src/Zynapse.Backend.Persistence.Postgres\Zynapse.Backend.Persistence.Postgres.csproj", "{DB1662EF-E1BA-4C4A-891B-6E9A156B2E8C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zynapse.Backend.Shared", "Zynapse.Backend.Shared\Zynapse.Backend.Shared.csproj", "{61612614-BDE3-4BC0-938E-0F7BC9BA97C3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zynapse.Backend.Shared", "src/Zynapse.Backend.Shared\Zynapse.Backend.Shared.csproj", "{61612614-BDE3-4BC0-938E-0F7BC9BA97C3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Applications", "Applications", "{69ECD28D-B604-460A-8BC3-CEE3173E5375}"
 EndProject
@@ -12,12 +12,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{72CEE630-C98A-422D-B13B-E183A6339EF7}"
 	ProjectSection(SolutionItems) = preProject
-		.gitignore = ../.gitignore
-		deploy-api.yml = ../.azure-pipelines/deploy-api.yml
-		pr-discord-notify.yml = ../.azure-pipelines/pr-discord-notify.yml
-		pr-build-validation.yml = ../.github/workflows/pr-build-validation.yml
-	    README.md = ../README.md
+		.gitignore = .gitignore
+		deploy-api.yml = .azure-pipelines/deploy-api.yml
+		pr-discord-notify.yml = .azure-pipelines/pr-discord-notify.yml
+		pr-build-validation.yml = .github/workflows/pr-build-validation.yml
+					README.md = README.md
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{20D23F4F-4474-4A64-8B1A-39C6F197BE0F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,5 +44,7 @@ Global
 		{298313D9-EE7B-4433-9600-5C3592AD0758} = {69ECD28D-B604-460A-8BC3-CEE3173E5375}
 		{DB1662EF-E1BA-4C4A-891B-6E9A156B2E8C} = {8EDBBEF5-83FA-4AA7-94C6-B1EB379AB8A3}
 		{61612614-BDE3-4BC0-938E-0F7BC9BA97C3} = {8EDBBEF5-83FA-4AA7-94C6-B1EB379AB8A3}
+		{69ECD28D-B604-460A-8BC3-CEE3173E5375} = {20D23F4F-4474-4A64-8B1A-39C6F197BE0F}
+		{8EDBBEF5-83FA-4AA7-94C6-B1EB379AB8A3} = {20D23F4F-4474-4A64-8B1A-39C6F197BE0F}
 	EndGlobalSection
 EndGlobal
