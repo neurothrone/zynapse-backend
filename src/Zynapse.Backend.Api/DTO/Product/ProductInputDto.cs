@@ -21,5 +21,6 @@ public record ProductInputDto
     [DefaultValue(50)]
     public int Stock { get; set; }
 
-    public string? SteamLink { get; set; }
+    public string? ImageUrl { get; set; }
+    public string? SteamUrl { get; set; }
 }
