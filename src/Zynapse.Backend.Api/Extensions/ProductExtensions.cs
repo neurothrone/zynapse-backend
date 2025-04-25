@@ -33,6 +33,6 @@ public static class ProductExtensions
         Description = dto.Description,
         Price = dto.Price,
         Stock = dto.Stock,
-        SteamLink = dto.SteamLink
+        SteamLink = dto.SteamUrl
     };
 }

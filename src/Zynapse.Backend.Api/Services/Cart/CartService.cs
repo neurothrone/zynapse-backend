@@ -126,7 +126,7 @@ public class CartService : ICartService
                 Description = item.Product.Description,
                 Price = item.Product.Price,
                 Stock = item.Product.Stock,
-                SteamLink = item.Product.SteamLink
+                SteamUrl = item.Product.SteamLink
             };
 
             var itemDto = new CartItemOutputDto
